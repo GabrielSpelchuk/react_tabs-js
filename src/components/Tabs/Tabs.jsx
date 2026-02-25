@@ -2,9 +2,10 @@ import cn from 'classnames';
 
 export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
   let tabBlock = null;
+  const active = tabs.find(t => t.id === activeTabId) || tabs[0];
 
   tabs.forEach(tab => {
-    if (tab.id === activeTabId) {
+    if (tab.id === active.id) {
       tabBlock = (
         <div className="block" data-cy="TabContent">
           {tab.content}
@@ -19,17 +20,17 @@ export const Tabs = ({ tabs, activeTabId, onTabSelected }) => {
         <ul>
           {tabs.map(tab => (
             <li
-              className={cn({ 'is-active': tab.id === activeTabId })}
+              className={cn({ 'is-active': tab.id === active.id })}
               data-cy="Tab"
-              key={`#${tab.id}`}
+              key={tab.id}
             >
               <a
-                href={tab.id}
+                href={`${tab.id}`}
                 data-cy="TabLink"
                 onClick={event => {
                   event.preventDefault();
 
-                  if (tab.id !== activeTabId) {
+                  if (tab.id !== active.id) {
                     onTabSelected(tab.id);
                   }
                 }}
